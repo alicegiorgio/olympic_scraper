@@ -45,15 +45,12 @@ class OlimpiadiSpider(CrawlSpider):
     def parse_url_athletes(self, response):
         sel = Selector(response)
         athletes = sel.xpath('/html/body/div/div/div/section/table/tbody/tr/td/div/a/div/strong/text()').extract()
-        #athletes = sel.xpath('/html/body/div/div/div/section[@class="table-box last active"]/table[@class="table4"]/tbody/tr[@class="slide"]/td/div[@class="slide-row"]/table[@class="col4"]/tbody/tr/td[@class="col2"]/div[@class="profile-section"]/a/div[@class="text-box"]/strong[@class="name"]/text()').extract()
         for j in range(len(athletes)):
             item=OlimpiadiItem(response.request.meta["item"])
             athleteUrl = sel.xpath('/html/body/div/div/div/section/table/tbody/tr/td/div/a/@href').extract()[j]
-            #athleteUrl = sel.xpath('/html/body/div/div/div/section[@class="table-box last active"]/table[@class="table4"]/tbody/tr[@class="slide"]/td/div[@class="slide-row"]/table[@class="col4"]/tbody/tr/td[@class="col2"]/div[@class="profile-section"]/a/@href').extract()[j]
             item['athlete']=athletes[j]
             try:
                 place=sel.xpath('/html/body/div/div[@id="main"]/div[@class="main-holder"]/section[@class="table-box"]/table[@class="table4"]/tbody/tr/td[@class="col1"]').extract()[j]
-                #place=sel.xpath('/html/body/div/div/div/section[@class="table-box last active"]/table[@class="table4"]/tbody/tr[@class="slide"]/td/div[@class="slide-row"]/table[@class="col4"]/tbody/tr/td[@class="col1"]').extract()[j]
             except:
                 place=None
             def trasf_place(place):
@@ -76,7 +73,6 @@ class OlimpiadiSpider(CrawlSpider):
                 item['place']=None
             try:
                 result=sel.xpath('/html/body/div/div/div/section/table/tbody/tr/td[3]/text()').extract()[j]
-                #result=sel.xpath('/html/body/div/div/div/section[@class="table-box last active"]/table[@class="table4"]/tbody/tr[@class="slide"]/td/div[@class="slide-row"]/table[@class="col4"]/tbody/tr/td[@class="col3"]/text()').extract()[j]
                 result=result.strip()
             except:
                 result=None
